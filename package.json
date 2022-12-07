@@ -1,0 +1,30 @@
+{
+  "name": "apitestbyjest",
+  "version": "1.0.0",
+  "description": "API tests for test resource https://restful-booker.herokuapp.com/",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Vadim Toptunov",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "superagent": "^8.0.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "globals": {
+      "BASICURL": "https://restful-booker.herokuapp.com",
+      "USERNAME": "admin",
+      "PASSW": "password123"
+    }
+  },
+  "dependencies": {
+    "expect": "^29.3.1"
+  }
+}
