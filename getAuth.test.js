@@ -19,7 +19,7 @@ describe('Authentication tests:', () => {
         {username: "falseAdmin", password: globs.PASSW,},
         {username: "falseAdmin", password: "incorrect",},
     ])
-    ('Should return error', async (payload) => {
+    ('Should return error on incorrect payload %p', async (payload) => {
         const endpoint = globs.BASICURL + '/auth';
         const res = await helpers.post(endpoint, payload);
         expect(res.statusCode).toEqual(200);

@@ -13,8 +13,8 @@ describe('Get booking ids tests:', () => {
         '/booking?checkin=2014-03-13',
         '/booking?checkout=2014-05-21',
     ])
-    ('Should return 200OK on correct input ', async (paramerers) => {
-        const endpoint = globs.BASICURL + paramerers;
+    ('Should return 200OK on correct input %s', async (parameter) => {
+        const endpoint = globs.BASICURL + parameter;
         const res = await helpers.get(endpoint);
         expect(res.statusCode).toEqual(200);
         expect(res.body[0]).toHaveProperty('bookingid');
@@ -26,22 +26,40 @@ describe('Get booking ids tests:', () => {
         '/booking?firstname=999',
         '/booking?lastname=dsadfa',
         '/booking?lastname=999',
-        '/booking?checkin=1714-03-13&checkout=2014-05-21',
         '/booking?checkin=2099-03-13&checkout=2014-05-21',
+    ])
+    ('Should return error message on incorrect input data: %s', async (falseParameters) =>{
+        const endpoint = globs.BASICURL + falseParameters;
+        const res = await helpers.get(endpoint);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.length).toEqual(0);
+    });
+
+    it.each([
+        '/booking?checkin=1714-03-13&checkout=2014-05-21',
         '/booking?checkin=2014-03-13&checkout=1010-05-21',
         '/booking?checkin=2014-03-13&checkout=9999-05-21',
         '/booking?checkin=0000-03-13',
         '/booking?checkout=9999-05-21',
+    ])
+    ('Should return empty list on incorrect dates and date ranges: %s', async (falseDateParameter) => {
+        const endpoint = globs.BASICURL + falseDateParameter;
+        const res = await helpers.get(endpoint);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body[0]).toHaveProperty('bookingid');
+        expect(res.body.length).toEqual(0);
+    });
+
+    it.each([
         '/booking?firstname=&lastname=',
         '/booking?checkin=&checkout=',
         '/booking?checkin=',
         '/booking?checkout='
     ])
-    ('Should return error message on incorrect input data', async (falseParameters) =>{
-        console.log(falseParameters);
+    ('Should receive error 500 on incorrect input data: %s', async (falseParameters) =>{
         const endpoint = globs.BASICURL + falseParameters;
-        const res = await helpers.get(endpoint);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.length).toEqual(0);
+        await helpers.get(endpoint).catch(function (res) {
+            expect(res.status).toEqual(500)
+        });
     });
 });
