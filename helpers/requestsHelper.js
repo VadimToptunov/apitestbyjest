@@ -8,10 +8,7 @@ async function getWithoutHeaders(url){
         'Content-Type': 'application/json',
         'Accept': 'application/json',
     }
-    return await request
-        .get(url)
-        .set(headers)
-        .send();
+    return await getPrivate(url, headers);
 }
 
     async function getPrivate(url, header){
