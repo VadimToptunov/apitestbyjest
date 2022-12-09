@@ -3,7 +3,7 @@ const request = require("superagent");
         return await getPrivate(url, {'Content-Type': 'application/json'});
     }
 
-async function getWithoutHeaders(url){
+async function getFullHeaders(url){
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -17,10 +17,23 @@ async function getWithoutHeaders(url){
             .send();
     }
 
+async function postPrivate(endpoint, payload, headers){
+    return await request.post(endpoint)
+        .set(headers)
+        .send(payload);
+}
+
     async function post(endpoint, payload){
-        return await request.post(endpoint)
-            .set({'Content-Type': "application/json"})
-            .send(payload);
+        const headers = {'Content-Type': "application/json"};
+        return await postPrivate(endpoint, payload, headers);
+    }
+
+    async function postFullHeaders(endpoint, payload){
+        const headers = {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        };
+        return await postPrivate(endpoint, payload, headers);
     }
 
     async function put(url, token, payload){
@@ -57,5 +70,11 @@ async function getWithoutHeaders(url){
     }
 
     module.exports = {
-        get, getFullHeaders: getWithoutHeaders, post, put, patch, deleteItem
+        get,
+        getFullHeaders,
+        post,
+        postFullHeaders,
+        put,
+        patch,
+        deleteItem
     }
