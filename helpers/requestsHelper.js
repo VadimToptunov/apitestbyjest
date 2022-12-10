@@ -1,14 +1,12 @@
+const headers = require('../testInput/headers/headers.json');
+
 const request = require("superagent");
     async function get(url){
-        return await getPrivate(url, {'Content-Type': 'application/json'});
+        return await getPrivate(url, headers.contentTypeHeader);
     }
 
 async function getFullHeaders(url){
-    const headers = {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-    }
-    return await getPrivate(url, headers);
+    return await getPrivate(url, headers.contentTypeAndAcceptHeader);
 }
 
     async function getPrivate(url, header){
@@ -24,48 +22,35 @@ async function postPrivate(endpoint, payload, headers){
 }
 
     async function post(endpoint, payload){
-        const headers = {'Content-Type': "application/json"};
-        return await postPrivate(endpoint, payload, headers);
+        return await postPrivate(endpoint, payload, headers.contentTypeHeader);
     }
 
     async function postFullHeaders(endpoint, payload){
-        const headers = {
-            'Content-Type': "application/json",
-            'Accept': "application/json",
-        };
-        return await postPrivate(endpoint, payload, headers);
+        return await postPrivate(endpoint, payload, headers.contentTypeAndAcceptHeader);
     }
 
     async function put(url, token, payload){
-        const headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Cookie': token
-        }
+        const cookieHeader = headers;
+        cookieHeader.headersWithToken.Cookie = token;
         return await request.put(url)
-            .set(headers)
+            .set(cookieHeader)
             .send(payload);
     }
 
     async function patch(url, token, payload){
-        const headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Cookie': token
-        }
+        const cookieHeader = headers;
+        cookieHeader.headersWithToken.Cookie = token;
         return await request.patch(url)
-            .set(headers)
+            .set(cookieHeader)
             .send(payload);
     }
 
     async function deleteItem(url, token){
-        const headers = {
-        'Content-Type': "application/json",
-            'Cookie': token
-        }
+        const cookieHeader = headers;
+        cookieHeader.Cookie = token;
         return await request
             .delete(url)
-            .set(headers)
+            .set(cookieHeader)
             .send();
     }
 

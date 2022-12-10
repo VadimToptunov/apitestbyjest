@@ -1,0 +1,16 @@
+{
+  "contentTypeHeader": {"Content-Type": "application/json"},
+  "contentTypeAndAcceptHeader": {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  "headersWithToken": {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Cookie": ""
+  },
+  "contentTypeAndCookieHeaders": {
+    "Content-Type": "application/json",
+    "Cookie": ""
+  }
+}
