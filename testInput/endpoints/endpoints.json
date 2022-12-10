@@ -1,0 +1,9 @@
+{
+  "auth": "https://restful-booker.herokuapp.com/auth",
+  "booking": "https://restful-booker.herokuapp.com/booking",
+  "correctBookingId": "https://restful-booker.herokuapp.com/booking/4171",
+  "incorrectBookingId": "https://restful-booker.herokuapp.com/booking/1",
+  "healthcheck": "https://restful-booker.herokuapp.com/ping"
+
+
+}

@@ -21,7 +21,8 @@
     "globals": {
       "BASICURL": "https://restful-booker.herokuapp.com",
       "USERNAME": "admin",
-      "PASSW": "password123"
+      "PASSW": "password123",
+      "TIMEOUT": 50000
     }
   },
   "dependencies": {

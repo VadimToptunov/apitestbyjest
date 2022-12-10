@@ -1,26 +1,23 @@
 const pack = require('./package.json');
 const globs = pack.jest.globals;
-const helpers = require('./helpers/requestsHelper')
+const helpers = require('./helpers/requestsHelper');
+const endpoints = require('./testInput/endpoints/endpoints.json');
+const payloads = require('./testInput/payloads/correctPayloads.json');
+const falseInputs = require('./testInput/inputs/falseInputs.json')
 
 describe('Authentication tests:', () => {
+    jest.setTimeout(globs.TIMEOUT);
+    let endpoint = endpoints.auth;
+    let incorrectInputs = falseInputs.authFalseInputs;
     it('Should receive token', async () => {
-        const endpoint = globs.BASICURL + '/auth';
-        const payload = {
-            username: globs.USERNAME,
-            password: globs.PASSW,
-        };
+        const payload = payloads.authPayload;
         const res = await helpers.post(endpoint, payload);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('token');
     });
 
-    it.each([
-        {username: globs.USERNAME, password: "incorrect",},
-        {username: "falseAdmin", password: globs.PASSW,},
-        {username: "falseAdmin", password: "incorrect",},
-    ])
+    it.each(incorrectInputs)
     ('Should return error on incorrect payload %p', async (payload) => {
-        const endpoint = globs.BASICURL + '/auth';
         const res = await helpers.post(endpoint, payload);
         expect(res.statusCode).toEqual(200);
         expect(res.text).toContain("Bad credentials");

@@ -1,0 +1,7 @@
+{
+  "authFalseInputs": [
+    {"username": "admin", "password": "incorrect"},
+    {"username": "falseAdmin", "password": "password123"},
+    {"username": "falseAdmin", "password": "incorrect"}
+  ]
+}
