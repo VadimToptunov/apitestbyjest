@@ -24,6 +24,7 @@ describe('Get booking ids tests:', () => {
         expect(res.body.length).toBeGreaterThan(0);
     });
 
+    //Flaky test, depends on input parameters
     it.each(nonExistent)
     ('Should return 200OK and empty list on correct input with not existing data: %s', async (parameter) => {
         const endpoint = bookingEndpoint + parameter;

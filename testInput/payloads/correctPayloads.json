@@ -3,5 +3,16 @@
     {
       "username": "admin",
       "password": "password123"
-    }
+    },
+  "createBookingPayload": {
+    "firstname": "",
+    "lastname": "",
+    "totalprice": 0,
+    "depositpaid": true,
+    "bookingdates": {
+      "checkin": "3099-01-01",
+      "checkout": "2099-10-01"
+    },
+    "additionalneeds": "Breakfast"
+  }
 }

@@ -18,9 +18,9 @@
     "?checkin=2014-03-13&checkout=2014-05-21"
   ],
   "bookingIncorrectDateFalseInputs": [
-    "?checkin=1714-03-13&checkout=2014-05-21",
+    "?checkin=1714-03-13&checkout=1714-05-21",
     "?checkin=2014-03-13&checkout=1010-05-21",
-    "?checkin=2014-03-13&checkout=9999-05-21",
+    "?checkin=2999-03-13&checkout=9999-05-21",
     "?checkin=0000-03-13",
     "?checkout=9999-05-21"
   ],

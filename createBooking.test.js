@@ -1,10 +1,10 @@
-const pack = require('./package.json');
-const globs = pack.jest.globals;
 const helpers = require('./helpers/requestsHelper');
-const generator = require('./helpers/commonHelper')
+const generator = require('./helpers/commonHelper');
+const endpoints = require('./testInput/endpoints/endpoints.json');
+const payloads = require('./testInput/payloads/correctPayloads.json')
 
 describe('Create booking tests:', () => {
-    let endpoint;
+    let endpoint = endpoints.booking;
     let payload;
     let firstname;
     let lastname;
@@ -12,24 +12,17 @@ describe('Create booking tests:', () => {
     let checkin;
     let checkout;
     beforeEach(async () => {
-        endpoint = globs.BASICURL + '/booking';
+        payload = payloads.createBookingPayload;
         firstname = generator.generateRandomString();
         lastname = generator.generateRandomString();
         price = generator.generatePrice();
-        checkin = '2099-01-01';
-        checkout = '2099-10-01';
+        checkin = payload.bookingdates.checkin;
+        checkout = payload.bookingdates.checkout;
 
-        payload = {
-            "firstname": firstname,
-            "lastname": lastname,
-            "totalprice": price,
-            "depositpaid": true,
-            "bookingdates": {
-                "checkin": checkin,
-                "checkout": checkout
-            },
-            "additionalneeds": "Breakfast"
-        }
+        payload.firstname = firstname;
+        payload.lastname = lastname;
+        payload.totalprice = price;
+
     });
     it('Should successfully create a booking', async () => {
         const res = await helpers.postFullHeaders(endpoint, payload);

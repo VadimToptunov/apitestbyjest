@@ -1,13 +1,13 @@
 const pack = require('./package.json');
 const globs = pack.jest.globals;
 const helpers = require('./helpers/requestsHelper');
+const endpoints = require('./testInput/endpoints/endpoints.json');
 
-jest.setTimeout(50000);
+jest.setTimeout(globs.TIMEOUT);
 
 describe('Get booking tests:', () => {
     it('Should return all data by id', async () => {
-        const endpoint = globs.BASICURL + "/booking/4171";
-        const res = await helpers.getFullHeaders(endpoint);
+        const res = await helpers.getFullHeaders(endpoints.correctBookingId);
         expect(res.status).toEqual(200);
         expect(res.body).toHaveProperty('firstname');
         expect(typeof res.body['firstname']).toBe('string')
@@ -27,15 +27,13 @@ describe('Get booking tests:', () => {
     });
 
     it('Should return error 404 on an id that does not exist', async () => {
-        const endpoint = globs.BASICURL + "/booking/1";
-        await helpers.getFullHeaders(endpoint).catch(function (res) {
+        await helpers.getFullHeaders(endpoints.incorrectBookingId).catch(function (res) {
             expect(res.status).toEqual(404);
         });
     });
 
     it('Should return error 418 on an incorrect header', async () => {
-        const endpoint = globs.BASICURL + "/booking/4171";
-        await helpers.get(endpoint).catch(function (res) {
+        await helpers.get(endpoints.correctBookingId).catch(function (res) {
             expect(res.status).toEqual(418);
         });
     });
