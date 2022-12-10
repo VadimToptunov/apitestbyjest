@@ -3,5 +3,31 @@
     {"username": "admin", "password": "incorrect"},
     {"username": "falseAdmin", "password": "password123"},
     {"username": "falseAdmin", "password": "incorrect"}
+  ],
+  "bookingFalseInputs": [
+    "?firstname=dfaasdafsa",
+    "?firstname=999",
+    "?lastname=dsadfa",
+    "?lastname=999",
+    "?checkin=2099-03-13&checkout=2014-05-21"
+  ],
+  "bookingNonExistentData": [
+    "?firstname=sally&lastname=brown",
+    "?firstname=sally",
+    "?lastname=brown",
+    "?checkin=2014-03-13&checkout=2014-05-21"
+  ],
+  "bookingIncorrectDateFalseInputs": [
+    "?checkin=1714-03-13&checkout=2014-05-21",
+    "?checkin=2014-03-13&checkout=1010-05-21",
+    "?checkin=2014-03-13&checkout=9999-05-21",
+    "?checkin=0000-03-13",
+    "?checkout=9999-05-21"
+  ],
+  "bookingEmptyDataFalseInputs": [
+    "?firstname=&lastname=",
+    "?checkin=&checkout=",
+    "?checkin=",
+    "?checkout="
   ]
 }

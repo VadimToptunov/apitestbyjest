@@ -1,63 +1,56 @@
 const pack = require('./package.json');
 const globs = pack.jest.globals;
 const helpers = require('./helpers/requestsHelper');
+const endpoints = require('./testInput/endpoints/endpoints.json');
+const falseInputs = require('./testInput/inputs/falseInputs.json')
+const correctInputs = require('./testInput/inputs/correctInputs.json')
 
-jest.setTimeout(50000);
+jest.setTimeout(globs.TIMEOUT);
 
 describe('Get booking ids tests:', () => {
-    it.each(['/booking',
-        '/booking?firstname=sally&lastname=brown',
-        '/booking?firstname=sally',
-        '/booking?lastname=brown',
-        '/booking?checkin=2014-03-13&checkout=2014-05-21',
-        '/booking?checkin=2014-03-13',
-        '/booking?checkout=2014-05-21',
-    ])
+    let bookingEndpoint = endpoints.booking;
+    let correctInputData = correctInputs.bookingCorrectInputs;
+    let incorrectInput = falseInputs.bookingFalseInputs;
+    let incorrectDateInput = falseInputs.bookingIncorrectDateFalseInputs;
+    let emptyDataInput = falseInputs.bookingEmptyDataFalseInputs;
+    let nonExistent = falseInputs.bookingNonExistentData;
+
+    it.each(correctInputData)
     ('Should return 200OK on correct input %s', async (parameter) => {
-        const endpoint = globs.BASICURL + parameter;
+        const endpoint = bookingEndpoint + parameter;
         const res = await helpers.get(endpoint);
         expect(res.statusCode).toEqual(200);
         expect(res.body[0]).toHaveProperty('bookingid');
         expect(res.body.length).toBeGreaterThan(0);
     });
 
-    it.each([
-        '/booking?firstname=dfaasdafsa',
-        '/booking?firstname=999',
-        '/booking?lastname=dsadfa',
-        '/booking?lastname=999',
-        '/booking?checkin=2099-03-13&checkout=2014-05-21',
-    ])
+    it.each(nonExistent)
+    ('Should return 200OK and empty list on correct input with not existing data: %s', async (parameter) => {
+        const endpoint = bookingEndpoint + parameter;
+        const res = await helpers.get(endpoint);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.length).toEqual(0);
+    });
+
+    it.each(incorrectInput)
     ('Should return error message on incorrect input data: %s', async (falseParameters) =>{
-        const endpoint = globs.BASICURL + falseParameters;
+        const endpoint = bookingEndpoint + falseParameters;
         const res = await helpers.get(endpoint);
         expect(res.statusCode).toEqual(200);
         expect(res.body.length).toEqual(0);
     });
 
-    it.each([
-        '/booking?checkin=1714-03-13&checkout=2014-05-21',
-        '/booking?checkin=2014-03-13&checkout=1010-05-21',
-        '/booking?checkin=2014-03-13&checkout=9999-05-21',
-        '/booking?checkin=0000-03-13',
-        '/booking?checkout=9999-05-21',
-    ])
+    it.each(incorrectDateInput)
     ('Should return empty list on incorrect dates and date ranges: %s', async (falseDateParameter) => {
-        const endpoint = globs.BASICURL + falseDateParameter;
+        const endpoint = bookingEndpoint + falseDateParameter;
         const res = await helpers.get(endpoint);
         expect(res.statusCode).toEqual(200);
-        expect(res.body[0]).toHaveProperty('bookingid');
         expect(res.body.length).toEqual(0);
     });
 
-    it.each([
-        '/booking?firstname=&lastname=',
-        '/booking?checkin=&checkout=',
-        '/booking?checkin=',
-        '/booking?checkout='
-    ])
+    it.each(emptyDataInput)
     ('Should receive error 500 on incorrect input data: %s', async (falseParameters) =>{
-        const endpoint = globs.BASICURL + falseParameters;
+        const endpoint = bookingEndpoint + falseParameters;
         await helpers.get(endpoint).catch(function (res) {
             expect(res.status).toEqual(500)
         });
