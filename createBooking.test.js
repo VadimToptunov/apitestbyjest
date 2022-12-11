@@ -3,27 +3,33 @@ const generator = require('./helpers/commonHelper');
 const endpoints = require('./testInput/endpoints/endpoints.json');
 const payloads = require('./testInput/payloads/correctPayloads.json')
 
+let endpoint = endpoints.booking;
+let payload;
+let firstname;
+let lastname;
+let price;
+let checkin;
+let checkout;
+
+beforeEach(async () => {
+    payload = payloads.createBookingPayload;
+    firstname = generator.generateRandomString();
+    lastname = generator.generateRandomString();
+    price = generator.generatePrice();
+    checkin = payload.bookingdates.checkin;
+    checkout = payload.bookingdates.checkout;
+
+    payload.firstname = firstname;
+    payload.lastname = lastname;
+    payload.totalprice = price;
+
+});
+
+/**
+ * Happy path tests:
+ * @group happypath
+ */
 describe('Create booking tests:', () => {
-    let endpoint = endpoints.booking;
-    let payload;
-    let firstname;
-    let lastname;
-    let price;
-    let checkin;
-    let checkout;
-    beforeEach(async () => {
-        payload = payloads.createBookingPayload;
-        firstname = generator.generateRandomString();
-        lastname = generator.generateRandomString();
-        price = generator.generatePrice();
-        checkin = payload.bookingdates.checkin;
-        checkout = payload.bookingdates.checkout;
-
-        payload.firstname = firstname;
-        payload.lastname = lastname;
-        payload.totalprice = price;
-
-    });
     it('Should successfully create a booking', async () => {
         const res = await helpers.postFullHeaders(endpoint, payload);
         expect(res.statusCode).toEqual(200);
@@ -63,7 +69,13 @@ describe('Create booking tests:', () => {
             expect(res.status).toEqual(418);
         });
     });
+});
 
+/**
+ * Negative flow tests:
+ * @group negativeflow
+ */
+describe('Negative flow createBooking tests: ', () => {
     it.each([
         ["Incorrect firstname type", {"firstname": 111, "lastname": lastname, "totalprice": price, "depositpaid": true, "bookingdates": {"checkin": checkin, "checkout": checkout},
             "additionalneeds": "Breakfast"

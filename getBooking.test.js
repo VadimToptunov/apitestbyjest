@@ -5,6 +5,10 @@ const endpoints = require('./testInput/endpoints/endpoints.json');
 
 jest.setTimeout(globs.TIMEOUT);
 
+/**
+ * Happy path tests:
+ * @group happypath
+ */
 describe('Get booking tests:', () => {
     it('Should return all data by id', async () => {
         const res = await helpers.getFullHeaders(endpoints.correctBookingId);
@@ -25,7 +29,13 @@ describe('Get booking tests:', () => {
         expect(res.body).toHaveProperty('additionalneeds');
         expect(typeof res.body['additionalneeds']).toBe('string');
     });
+});
 
+/**
+ * Negative flow tests:
+ * @group negativeflow
+ */
+describe('Negative flow getBooking tests: ', function () {
     it('Should return error 404 on an id that does not exist', async () => {
         await helpers.getFullHeaders(endpoints.incorrectBookingId).catch(function (res) {
             expect(res.status).toEqual(404);

@@ -11,12 +11,6 @@
     "?lastname=999",
     "?checkin=2099-03-13&checkout=2014-05-21"
   ],
-  "bookingNonExistentData": [
-    "?firstname=sally&lastname=brown",
-    "?firstname=sally",
-    "?lastname=brown",
-    "?checkin=2014-03-13&checkout=2014-05-21"
-  ],
   "bookingIncorrectDateFalseInputs": [
     "?checkin=1714-03-13&checkout=1714-05-21",
     "?checkin=2014-03-13&checkout=1010-05-21",

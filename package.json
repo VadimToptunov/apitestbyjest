@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.3.1",
+    "jest-runner-groups": "^2.2.0",
     "superagent": "^8.0.5"
   },
   "jest": {
@@ -18,6 +19,7 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ],
+    "runner": "groups",
     "globals": {
       "BASICURL": "https://restful-booker.herokuapp.com",
       "USERNAME": "admin",

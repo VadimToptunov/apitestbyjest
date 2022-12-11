@@ -1,11 +1,10 @@
 {
   "bookingCorrectInputs": [
     "",
-    "?firstname=jim&lastname=brown",
-    "?firstname=jim",
+    "?firstname=sally&lastname=brown",
+    "?firstname=sally",
     "?lastname=brown",
-    "?checkin=2018-01-01&checkout=2019-01-01",
-    "?checkin=2018-01-01",
-    "?checkout=2019-01-01"
+    "?checkin=2014-03-13",
+    "?checkout=2014-05-21"
   ]
 }
