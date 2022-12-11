@@ -4,14 +4,15 @@
   "description": "API tests for test resource https://restful-booker.herokuapp.com/",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --maxWorkers 2",
+    "test:dev": "jest --testNamePattern=negativeflow --maxWorkers 2",
+    "test:prod": "jest --testNamePattern=happypath --maxWorkers 2"
   },
   "keywords": [],
   "author": "Vadim Toptunov",
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.3.1",
-    "jest-runner-groups": "^2.2.0",
     "superagent": "^8.0.5"
   },
   "jest": {
@@ -21,9 +22,6 @@
     ],
     "runner": "groups",
     "globals": {
-      "BASICURL": "https://restful-booker.herokuapp.com",
-      "USERNAME": "admin",
-      "PASSW": "password123",
       "TIMEOUT": 50000
     }
   },

@@ -14,11 +14,7 @@ let incorrectInput = falseInputs.bookingFalseInputs;
 let incorrectDateInput = falseInputs.bookingIncorrectDateFalseInputs;
 let emptyDataInput = falseInputs.bookingEmptyDataFalseInputs;
 
-/**
- * Happy path tests:
- * @group happypath
- */
-describe('Get booking ids tests:', () => {
+describe('(happypath): Get booking ids tests:', () => {
     beforeEach(async () => {
         let payload = payloads.createBookingPayload;
         payload.firstname = "sally";
@@ -39,11 +35,7 @@ describe('Get booking ids tests:', () => {
     });
 });
 
-/**
- * Negative flow tests:
- * @group negativeflow
- */
-describe('Negative flow getBookingIds tests: ', () => {
+describe('(negativeflow): Negative flow getBookingIds tests: ', () => {
     it.each(incorrectInput)
     ('Should return error message on incorrect input data: %s', async (falseParameters) =>{
         const endpoint = bookingEndpoint + falseParameters;

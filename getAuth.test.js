@@ -9,11 +9,7 @@ jest.setTimeout(globs.TIMEOUT);
 let endpoint = endpoints.auth;
 let incorrectInputs = falseInputs.authFalseInputs;
 
-/**
- * Happy path tests:
- * @group happypath
- */
-describe('Happy path authentication tests:', () => {
+describe('(happypath): Happy path authentication tests:', () => {
     it('Should receive token', async () => {
         const payload = payloads.authPayload;
         const res = await helpers.post(endpoint, payload);
@@ -22,11 +18,7 @@ describe('Happy path authentication tests:', () => {
     });
 });
 
-/**
- * Negative flow tests:
- * @group negativeflow
- */
-describe('Negative auth scenarios: ', () =>{
+describe('(negativeflow): Negative auth scenarios: ', () =>{
     it.each(incorrectInputs)
     ('Should return error on incorrect payload %p', async (payload) => {
         const res = await helpers.post(endpoint, payload);

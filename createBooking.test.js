@@ -25,11 +25,7 @@ beforeEach(async () => {
 
 });
 
-/**
- * Happy path tests:
- * @group happypath
- */
-describe('Create booking tests:', () => {
+describe('(happypath): Create booking tests:', () => {
     it('Should successfully create a booking', async () => {
         const res = await helpers.postFullHeaders(endpoint, payload);
         expect(res.statusCode).toEqual(200);
@@ -71,11 +67,7 @@ describe('Create booking tests:', () => {
     });
 });
 
-/**
- * Negative flow tests:
- * @group negativeflow
- */
-describe('Negative flow createBooking tests: ', () => {
+describe('(negativeflow): Negative flow createBooking tests: ', () => {
     it.each([
         ["Incorrect firstname type", {"firstname": 111, "lastname": lastname, "totalprice": price, "depositpaid": true, "bookingdates": {"checkin": checkin, "checkout": checkout},
             "additionalneeds": "Breakfast"
