@@ -4,9 +4,9 @@
   "description": "API tests for test resource https://restful-booker.herokuapp.com/",
   "main": "index.js",
   "scripts": {
-    "test": "jest --maxWorkers 2",
-    "test:dev": "jest --testNamePattern=negativeflow --maxWorkers 2",
-    "test:prod": "jest --testNamePattern=happypath --maxWorkers 2"
+    "test": "jest --maxWorkers 1",
+    "test:dev": "jest --testNamePattern=negativeflow --maxWorkers 1",
+    "test:prod": "jest --testNamePattern=happypath --maxWorkers 1"
   },
   "keywords": [],
   "author": "Vadim Toptunov",
