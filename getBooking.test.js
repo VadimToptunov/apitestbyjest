@@ -2,12 +2,18 @@ const pack = require('./package.json');
 const globs = pack.jest.globals;
 const helpers = require('./helpers/requestsHelper');
 const endpoints = require('./testInput/endpoints/endpoints.json');
+const startup = require('./helpers/startup');
 
 jest.setTimeout(globs.TIMEOUT);
+let correctBookingId;
+
+beforeEach(async () => {
+   correctBookingId = await startup.getCorrectBookingId();
+});
 
 describe('(happypath): Get booking tests:', () => {
     it('Should return all data by id', async () => {
-        const res = await helpers.getFullHeaders(endpoints.correctBookingId);
+        const res = await helpers.getFullHeaders(correctBookingId);
         expect(res.status).toEqual(200);
         expect(res.body).toHaveProperty('firstname');
         expect(typeof res.body['firstname']).toBe('string')
@@ -35,7 +41,7 @@ describe('(negativeflow): Negative flow getBooking tests: ', function () {
     });
 
     it('Should return error 418 on an incorrect header', async () => {
-        await helpers.get(endpoints.correctBookingId).catch(function (res) {
+        await helpers.get(correctBookingId).catch(function (res) {
             expect(res.status).toEqual(418);
         });
     });

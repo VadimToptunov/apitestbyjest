@@ -4,8 +4,7 @@ const helpers = require('./helpers/requestsHelper');
 const endpoints = require('./testInput/endpoints/endpoints.json');
 const falseInputs = require('./testInput/inputs/falseInputs.json')
 const correctInputs = require('./testInput/inputs/correctInputs.json')
-const payloads = require("./testInput/payloads/correctPayloads.json");
-const generator = require("./helpers/commonHelper");
+const startup = require('./helpers/startup');
 
 jest.setTimeout(globs.TIMEOUT);
 let bookingEndpoint = endpoints.booking;
@@ -15,14 +14,9 @@ let incorrectDateInput = falseInputs.bookingIncorrectDateFalseInputs;
 let emptyDataInput = falseInputs.bookingEmptyDataFalseInputs;
 
 describe('(happypath): Get booking ids tests:', () => {
+    let payload;
     beforeEach(async () => {
-        let payload = payloads.createBookingPayload;
-        payload.firstname = "sally";
-        payload.lastname = "brown";
-        payload.totalprice = generator.generatePrice();
-        payload.bookingdates.checkin = "2014-03-13";
-        payload.bookingdates.checkout = "2014-05-21";
-        await helpers.postFullHeaders(bookingEndpoint, payload);
+        payload = await startup.createBookingPayload(bookingEndpoint);
     });
 
     it.each(correctInputData)
