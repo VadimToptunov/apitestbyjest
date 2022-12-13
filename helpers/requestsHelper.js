@@ -20,29 +20,36 @@ let cookieHeader = headers;
     }
 
     async function put(url, token, payload){
-        cookieHeader = cookieHeader.headersWithToken.Cookie = token;
-        return await putPrivate(url, cookieHeader, payload);
+        const header = setTokenToHeadersWithToken(token);
+        return await putPrivate(url, header, payload);
     }
 
-    async function putWithAuthHeader(url, token, payload){
-        cookieHeader = cookieHeader.headersWithAuth;
-        return await putPrivate(url, cookieHeader, payload);
+    async function putWithAuthHeader(url, payload){
+        const header = headers.headersWithAuth;
+        return await putPrivate(url, header, payload);
+    }
+
+    async function putWithoutOptionalHeaders(url, payload){
+        const header = headers.contentTypeHeader;
+        return await putPrivate(url, header, payload);
     }
 
     async function patch(url, token, payload){
-        cookieHeader = cookieHeader.headersWithToken.Cookie = token;
-        return patchPrivate(url, cookieHeader, payload);
+        return patchPrivate(url, setToken(token), payload);
     }
 
-    async function patchWithAuthHeader(url, token, payload){
+    async function patchWithAuthHeader(url, payload){
         cookieHeader = cookieHeader.headersWithAuth;
         return patchPrivate(url, cookieHeader, payload);
     }
 
+    async function patchWithoutOptionalHeaders(url, payload){
+        const header = headers.contentTypeHeader;
+        return await patchPrivate(url, header, payload);
+    }
+
     async function deleteItem(url, token){
-        const header = cookieHeader.contentTypeAndCookieHeaders;
-        header.Cookie = `token=${token}`;
-        return await deletePrivate(url, header);
+        return await deletePrivate(url, setToken(token));
     }
 
     async function deleteItemWithAuth(url){
@@ -85,6 +92,18 @@ let cookieHeader = headers;
             .send();
     }
 
+    function setToken(token){
+        const header = cookieHeader.contentTypeAndCookieHeaders;
+        header.Cookie = `token=${token}`;
+        return header;
+    }
+
+    function setTokenToHeadersWithToken(token){
+        const header = cookieHeader.headersWithToken;
+        header.Cookie = `token=${token}`;
+        return header;
+    }
+
     module.exports = {
         get,
         getFullHeaders,
@@ -92,7 +111,10 @@ let cookieHeader = headers;
         postFullHeaders,
         put,
         putWithAuthHeader,
+        putWithoutOptionalHeaders,
         patch,
+        patchWithAuthHeader,
+        patchWithoutOptionalHeaders,
         deleteItem,
         deleteItemWithAuth,
         deleteItemWithoutOptionalHeaders

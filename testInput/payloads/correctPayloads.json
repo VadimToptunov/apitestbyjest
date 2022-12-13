@@ -4,7 +4,7 @@
       "username": "admin",
       "password": "password123"
     },
-  "createBookingPayload": {
+  "bookingPayload": {
     "firstname": "",
     "lastname": "",
     "totalprice": 0,

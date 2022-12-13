@@ -9,7 +9,7 @@ async function getCorrectBookingId() {
 }
 
 async function createBookingPayload(bookingEndpoint){
-    let payload = payloads.createBookingPayload;
+    let payload = payloads.bookingPayload;
     payload.firstname = "sally";
     payload.lastname = "brown";
     payload.totalprice = generator.generatePrice();
@@ -18,7 +18,18 @@ async function createBookingPayload(bookingEndpoint){
     return await helpers.postFullHeaders(bookingEndpoint, payload);
 }
 
+function createBookingPayloadForUpdate(firstname, lastname, price, checkin, checkout){
+    let payload = payloads.bookingPayload;
+    payload.firstname = firstname;
+    payload.lastname = lastname;
+    payload.totalprice = price;
+    payload.bookingdates.checkin = checkin;
+    payload.bookingdates.checkout = checkout;
+    return payload
+}
+
 module.exports ={
     getCorrectBookingId,
-    createBookingPayload
+    createBookingPayload,
+    createBookingPayloadForUpdate
 }

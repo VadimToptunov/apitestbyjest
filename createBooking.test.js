@@ -13,7 +13,7 @@ let checkin;
 let checkout;
 
 beforeEach(async () => {
-    payload = payloads.createBookingPayload;
+    payload = payloads.bookingPayload;
     firstname = generator.generateRandomString();
     lastname = generator.generateRandomString();
     price = generator.generatePrice();

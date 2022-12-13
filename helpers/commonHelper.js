@@ -10,7 +10,14 @@ function generatePrice() {
     );
 }
 
+function generateDate(year){
+    const start = new Date(year, 0, 1);
+    const end = new Date();
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toISOString().slice(0, 10);
+}
+
 module.exports = {
     generateRandomString,
     generatePrice,
+    generateDate
 }
