@@ -4,34 +4,50 @@ const startup = require("./helpers/startup");
 const helpers = require("./helpers/requestsHelper");
 const payloads = require("./testInput/payloads/correctPayloads.json");
 const endpoints = require("./testInput/endpoints/endpoints.json");
+const {generateRandomString, generatePrice, generateDate} = require("./helpers/commonHelper");
+const teardown = require("./helpers/teardown");
 
 let endpoint = endpoints.booking;
 let bookingId;
 let bookingUrl;
 let token;
+let firstname;
+let lastname;
+let bookingFullUrl;
 
 jest.setTimeout(globs.TIMEOUT);
 
-describe('(happypath):', function () {
-    beforeEach(async () => {
+describe('(happypath): Tests on Partial update', function () {
+    beforeAll(async () => {
         const res = await startup.createBookingPayload(endpoint);
         bookingId = await res.body['bookingid'].toString();
-        bookingUrl = `${endpoint}/${bookingId}`;
+        bookingFullUrl = `${endpoint}/${bookingId}`;
         const payloadAuth = payloads.authPayload;
         const resAuth = await helpers.post(endpoints.auth, payloadAuth);
         token = resAuth.body['token'];
+
+        firstname = generateRandomString();
+        lastname = generateRandomString();
     });
 
-    afterEach(() =>{
-        //Delete the booking
+    afterAll(async () =>{
+        await teardown.deleteBooking(bookingFullUrl);
     });
 
-    it('', async () =>{
-        //Update the booking with Cookie
+    it('Should partially update the created booking with the Cookie header', async () =>{
+        const payload = startup.createBookingShortPayload(firstname, lastname);
+        const resp = await helpers.patch(bookingFullUrl, token, payload);
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body['firstname']).toEqual(firstname);
+        expect(resp.body['lastname']).toEqual(lastname);
     });
 
-    it('', async () =>{
-        //Update the booking with Auth header
+    it('Should partially update the created booking with the Auth header', async () =>{
+        const payload = startup.createBookingShortPayload(firstname, lastname);
+        const response = await helpers.patchWithAuthHeader(bookingFullUrl, payload);
+        expect(response.statusCode).toEqual(200);
+        expect(response.body['firstname']).toEqual(firstname);
+        expect(response.body['lastname']).toEqual(lastname);
     });
 });
 

@@ -28,8 +28,16 @@ function createBookingPayloadForUpdate(firstname, lastname, price, checkin, chec
     return payload
 }
 
+function createBookingShortPayload(firstname, lastname){
+    let payload = payloads.partialUpdatePayload;
+    payload.firstname = firstname;
+    payload.lastname = lastname;
+    return payload
+}
+
 module.exports ={
     getCorrectBookingId,
     createBookingPayload,
-    createBookingPayloadForUpdate
+    createBookingPayloadForUpdate,
+    createBookingShortPayload
 }

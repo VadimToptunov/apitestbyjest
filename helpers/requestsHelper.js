@@ -35,7 +35,7 @@ let cookieHeader = headers;
     }
 
     async function patch(url, token, payload){
-        return patchPrivate(url, setToken(token), payload);
+        return patchPrivate(url, setTokenToHeadersWithToken(token), payload);
     }
 
     async function patchWithAuthHeader(url, payload){
@@ -53,8 +53,8 @@ let cookieHeader = headers;
     }
 
     async function deleteItemWithAuth(url){
-        cookieHeader = cookieHeader.headersWithAuth;
-        return await deletePrivate(url, cookieHeader);
+        const header = headers.headersWithAuth;
+        return await deletePrivate(url, header);
     }
 
     async function deleteItemWithoutOptionalHeaders(url){
