@@ -2,6 +2,7 @@ const helpers = require('./helpers/requestsHelper');
 const generator = require('./helpers/commonHelper');
 const endpoints = require('./testInput/endpoints/endpoints.json');
 const payloads = require('./testInput/payloads/correctPayloads.json')
+const teardown = require('./helpers/teardown')
 
 let endpoint = endpoints.booking;
 let payload;
@@ -22,12 +23,18 @@ beforeEach(async () => {
     payload.firstname = firstname;
     payload.lastname = lastname;
     payload.totalprice = price;
-
 });
 
 describe('(happypath): Create booking tests:', () => {
+    let bookingId;
+    afterEach(async () =>{
+        const bookingUrl = `${endpoint}/${bookingId}`;
+        await teardown.deleteBooking(bookingUrl);
+    });
+
     it('Should successfully create a booking', async () => {
         const res = await helpers.postFullHeaders(endpoint, payload);
+        bookingId = res.body['bookingid'].toString();
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('bookingid');
         expect(res.body['bookingid']).toEqual(expect.any(Number));
@@ -59,12 +66,6 @@ describe('(happypath): Create booking tests:', () => {
         expect(booking).toHaveProperty('additionalneeds');
         expect(typeof booking['additionalneeds']).toBe('string');
     });
-
-    it('Should return error 418 on an incorrect header', async () => {
-        await helpers.post(endpoint, payload).catch(function (res) {
-            expect(res.status).toEqual(418);
-        });
-    });
 });
 
 describe('(negativeflow): Negative flow createBooking tests: ', () => {
@@ -91,3 +92,11 @@ describe('(negativeflow): Negative flow createBooking tests: ', () => {
         });
     });
 });
+
+describe('(negativeflow): Tests on error 418: ', () => {
+    it('Should return error 418 on an incorrect header', async () => {
+        await helpers.post(endpoint, payload).catch(function (res) {
+            expect(res.status).toEqual(418);
+        });
+    });
+})

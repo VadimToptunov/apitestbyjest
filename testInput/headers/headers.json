@@ -9,11 +9,10 @@
     "Accept": "application/json",
     "Cookie": ""
   },
-  "headersWithOptionalAuth": {
+  "headersWithAuth": {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    "Cookie": "",
-    "Authorization": "Basic YWRtaW46cGFzc3dvcmQxMjM=]"
+    "Authorization": "Basic YWRtaW46cGFzc3dvcmQxMjM="
   },
   "contentTypeAndCookieHeaders": {
     "Content-Type": "application/json",

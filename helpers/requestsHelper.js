@@ -25,7 +25,7 @@ let cookieHeader = headers;
     }
 
     async function putWithAuthHeader(url, token, payload){
-        cookieHeader = cookieHeader.headersWithOptionalAuth.Cookie = token;
+        cookieHeader = cookieHeader.headersWithAuth;
         return await putPrivate(url, cookieHeader, payload);
     }
 
@@ -35,17 +35,24 @@ let cookieHeader = headers;
     }
 
     async function patchWithAuthHeader(url, token, payload){
-        cookieHeader = cookieHeader.headersWithOptionalAuth
-            .Cookie = token;
+        cookieHeader = cookieHeader.headersWithAuth;
         return patchPrivate(url, cookieHeader, payload);
     }
 
     async function deleteItem(url, token){
-        cookieHeader = cookieHeader.Cookie = token;
-        return await request
-            .delete(url)
-            .set(cookieHeader)
-            .send();
+        const header = cookieHeader.contentTypeAndCookieHeaders;
+        header.Cookie = `token=${token}`;
+        return await deletePrivate(url, header);
+    }
+
+    async function deleteItemWithAuth(url){
+        cookieHeader = cookieHeader.headersWithAuth;
+        return await deletePrivate(url, cookieHeader);
+    }
+
+    async function deleteItemWithoutOptionalHeaders(url){
+        const header = headers.contentTypeHeader;
+        return await deletePrivate(url, header);
     }
 
     async function getPrivate(url, header){
@@ -72,6 +79,12 @@ let cookieHeader = headers;
             .send(payload);
     }
 
+    async function deletePrivate(url, cookieHeader){
+        return await request.delete(url)
+            .set(cookieHeader)
+            .send();
+    }
+
     module.exports = {
         get,
         getFullHeaders,
@@ -80,5 +93,7 @@ let cookieHeader = headers;
         put,
         putWithAuthHeader,
         patch,
-        deleteItem
+        deleteItem,
+        deleteItemWithAuth,
+        deleteItemWithoutOptionalHeaders
     }
