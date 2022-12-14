@@ -4,7 +4,7 @@ const startup = require("./helpers/startup");
 const helpers = require("./helpers/requestsHelper");
 const payloads = require("./testInput/payloads/correctPayloads.json");
 const endpoints = require("./testInput/endpoints/endpoints.json");
-const {generateRandomString, generatePrice, generateDate} = require("./helpers/commonHelper");
+const {generateRandomString} = require("./helpers/commonHelper");
 const teardown = require("./helpers/teardown");
 
 let endpoint = endpoints.booking;
